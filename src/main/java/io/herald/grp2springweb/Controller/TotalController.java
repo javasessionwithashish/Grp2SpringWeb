@@ -13,6 +13,12 @@ public class TotalController {
         return "index"; //returns index.html page
     }
 
+    @GetMapping("/signup")
+    public String signupGet()
+    {
+        return "signupPage";
+    }
+
 
 
 
