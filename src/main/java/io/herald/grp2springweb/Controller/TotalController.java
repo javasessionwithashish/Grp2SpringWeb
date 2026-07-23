@@ -3,6 +3,7 @@ package io.herald.grp2springweb.Controller;
 import io.herald.grp2springweb.Model.UserTable;
 import io.herald.grp2springweb.Repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,8 +55,18 @@ String hashPassword= DigestUtils.md5DigestAsHex(password.getBytes());
 
         if(uRepo.existsByUsernameAndPassword(username,hashPassword))
         {
-             List<UserTable> userList  = uRepo.findAll();
-m.addAttribute("userList",userList);
+
+            HttpSession session= request.getSession();
+       //Session revolves around the http requests, we are trying to
+       //get a running session with the above code
+            session.setAttribute("username",username);
+//After a successful signin, a username is provided a session acc to
+            //their username
+
+            List<UserTable> totalUsers= uRepo.findAll();
+
+m.addAttribute("totalUsers", totalUsers);
+
             return "homePage";
         }
 
@@ -87,5 +98,13 @@ m.addAttribute("userList",userList);
       m.addAttribute("signupSuccess","Successfully signedup! Please login");
         return "loginPage";
     }
+
+
+    @GetMapping("/home")
+    public String homePage()
+    {
+        return "homePage";
+    }
+
 
 }
