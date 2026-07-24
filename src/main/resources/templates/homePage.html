@@ -19,7 +19,13 @@
     <tr th:each="user:${totalUsers}">
         <td th:text="${user.getId()}"></td>
         <td th:text="${user.getUsername()}"></td>
-        <td>Edit</td>
+        <td>
+            <form method="post" action="editUser">
+                <input type="hidden" name="id" th:value="${user.getId()}">
+                <input type="submit" value="Edit this Username">
+            </form>
+
+        </td>
 <td>
     <form method="post" action="deleteUser">
 <input type="hidden" th:value="${user.getId()}" name="id">
